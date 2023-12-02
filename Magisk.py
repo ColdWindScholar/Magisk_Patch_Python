@@ -5,7 +5,7 @@ import shutil
 import subprocess
 import sys
 
-from log import LOGE, LOGW, yecho
+from log import LOGE, LOGW, yecho, LOGS
 
 local = os.getcwd()
 
@@ -155,6 +155,7 @@ class Magisk_patch:
         for w in ['kernel', 'kernel_dtb', 'ramdisk.cpio', 'stub.xz', 'stock_boot.img']:
             if os.path.exists(os.path.join(local, w)):
                 self.remove(os.path.join(local, w))
+        LOGS(f"Done! Out:{os.path.join(local,'new-boot.img')}")
 
     @staticmethod
     def sha1(file_path):
