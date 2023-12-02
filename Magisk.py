@@ -30,7 +30,7 @@ class Magisk_patch:
             print("Warn:Cannot be named after the generated file name")
             print(f'Please Rename {self.boot_img}')
             sys.exit(1)
-        if not os.path.exists(self.boot_img) or not os.path.exists(self.magiskboot):
+        if not os.path.exists(self.boot_img) or not os.path.exists(self.magiskboot+(".exe" if os.name == 'nt' else '')):
             print("Cannot Found Boot.img or Not Support Your Device")
             sys.exit(1)
         self.unpack()
