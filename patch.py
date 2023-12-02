@@ -7,7 +7,7 @@ local = os.getcwd()
 
 
 def patch(boot_img):
-    Magisk_patch(os.path.abspath(boot_img), f"{os.path.join(local, 'bin', 'Magisk')}").auto_patch()
+    Magisk_patch(os.path.abspath(boot_img), os.path.join(local, 'bin', 'Magisk')).auto_patch()
 
 
 if __name__ == '__main__':
