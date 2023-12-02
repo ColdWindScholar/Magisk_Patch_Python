@@ -1,10 +1,12 @@
 import hashlib
-import subprocess
 import os
 import platform
-import sys
 import shutil
-from log import LOGS,LOGE,LOGW
+import subprocess
+import sys
+
+from log import LOGE, LOGW, yecho
+
 local = os.getcwd()
 
 
@@ -25,7 +27,7 @@ class Magisk_patch:
         self.boot_img = os.path.abspath(boot_img)
 
     def auto_patch(self):
-        print("Magisk Boot Patcher By ColdWindScholar(3590361911@qq.com)")
+        yecho("Magisk Boot Patcher By ColdWindScholar(3590361911@qq.com)")
         if self.boot_img == os.path.join(local, 'new-boot.img'):
             LOGW("Warn:Cannot be named after the generated file name")
             LOGW(f'Please Rename {self.boot_img}')
@@ -64,8 +66,8 @@ class Magisk_patch:
             LOGW('! Unsupported/Unknown image format')
             sys.exit(1)
         elif ret == 2:
-            print('- ChromeOS boot image detected')
-            print('ChromeOS not support yet')
+            yecho('- ChromeOS boot image detected')
+            LOGW('ChromeOS not support yet')
             self.CHROMEOS = True
             sys.exit(1)
         elif ret != 0:
@@ -75,18 +77,18 @@ class Magisk_patch:
             self.RECOVERYMODE = True
 
     def check(self):
-        print('- Checking ramdisk status')
+        yecho('- Checking ramdisk status')
         if os.path.exists(os.path.join(local, 'ramdisk.cpio')):
             self.STATUS = self.exec('cpio', 'ramdisk.cpio', 'test')
         else:
             self.STATUS = 0
         if (self.STATUS & 3) == 0:
-            print("- Stock boot image detected")
+            yecho("- Stock boot image detected")
             self.SHA1 = self.sha1(self.boot_img)
             shutil.copyfile(self.boot_img, os.path.join(local, 'stock_boot.img'))
             shutil.copyfile(os.path.join(local, 'ramdisk.cpio'), os.path.join(local, 'ramdisk.cpio.orig'))
         elif (self.STATUS & 3) == 1:
-            print("- Magisk patched boot image detected")
+            yecho("- Magisk patched boot image detected")
             if not self.SHA1:
                 self.SHA1 = self.sha1(os.path.join(local, 'ramdisk.cpio'))
             self.exec('cpio', 'ramdisk.cpio', 'restore')
@@ -98,7 +100,7 @@ class Magisk_patch:
             sys.exit(1)
 
     def patch(self):
-        print("- Patching ramdisk")
+        yecho("- Patching ramdisk")
         with open(os.path.join(local, 'config'), 'w', encoding='utf-8', newline='\n') as config:
             config.write(f'KEEPVERITY={self.KEEPVERITY}\n')
             config.write(f'KEEPFORCEENCRYPT={self.KEEPFORCEENCRYPT}\n')
@@ -147,7 +149,7 @@ class Magisk_patch:
             self.exec('hexpatch', 'kernel', '736B69705F696E697472616D667300', '77616E745F696E697472616D667300')
 
     def repack(self):
-        print("- Repacking boot image")
+        yecho("- Repacking boot image")
         if self.exec('repack', self.boot_img) != 0:
             LOGW("! Unable to repack boot image")
         for w in ['kernel', 'kernel_dtb', 'ramdisk.cpio', 'stub.xz', 'stock_boot.img']:
