@@ -25,6 +25,7 @@ class Magisk_patch:
         self.boot_img = os.path.abspath(boot_img)
 
     def auto_patch(self):
+        print("Magisk Boot Patcher By ColdWindScholar(3590361911@qq.com)")
         if self.boot_img == os.path.join(local, 'new-boot.img'):
             print("Warn:Cannot be named after the generated file name")
             print(f'Please Rename {self.boot_img}')
