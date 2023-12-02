@@ -4,7 +4,7 @@ import os
 import platform
 import sys
 import shutil
-
+from log import LOGS,LOGE,LOGW
 local = os.getcwd()
 
 
@@ -27,11 +27,11 @@ class Magisk_patch:
     def auto_patch(self):
         print("Magisk Boot Patcher By ColdWindScholar(3590361911@qq.com)")
         if self.boot_img == os.path.join(local, 'new-boot.img'):
-            print("Warn:Cannot be named after the generated file name")
-            print(f'Please Rename {self.boot_img}')
+            LOGW("Warn:Cannot be named after the generated file name")
+            LOGW(f'Please Rename {self.boot_img}')
             sys.exit(1)
         if not os.path.exists(self.boot_img) or not os.path.exists(self.magiskboot+(".exe" if os.name == 'nt' else '')):
-            print("Cannot Found Boot.img or Not Support Your Device")
+            LOGE("Cannot Found Boot.img or Not Support Your Device")
             sys.exit(1)
         self.unpack()
         self.check()
@@ -61,14 +61,15 @@ class Magisk_patch:
     def unpack(self):
         ret = self.exec('unpack', self.boot_img)
         if ret == 1:
-            print('! Unsupported/Unknown image format')
+            LOGW('! Unsupported/Unknown image format')
+            sys.exit(1)
         elif ret == 2:
             print('- ChromeOS boot image detected')
             print('ChromeOS not support yet')
             self.CHROMEOS = True
             sys.exit(1)
         elif ret != 0:
-            print('! Unable to unpack boot image')
+            LOGW('! Unable to unpack boot image')
             sys.exit(1)
         if os.path.exists(os.path.join(local, 'recovery_dtbo')):
             self.RECOVERYMODE = True
@@ -92,8 +93,8 @@ class Magisk_patch:
             shutil.copyfile(os.path.join(local, 'ramdisk.cpio'), os.path.join(local, 'ramdisk.cpio.orig'))
             self.remove(os.path.join(local, 'stock_boot.img'))
         elif (self.STATUS & 3) == 2:
-            print("! Boot image patched by unsupported programs")
-            print("! Please restore back to stock boot image")
+            LOGW("! Boot image patched by unsupported programs")
+            LOGW("! Please restore back to stock boot image")
             sys.exit(1)
 
     def patch(self):
@@ -148,7 +149,7 @@ class Magisk_patch:
     def repack(self):
         print("- Repacking boot image")
         if self.exec('repack', self.boot_img) != 0:
-            print("! Unable to repack boot image")
+            LOGW("! Unable to repack boot image")
         for w in ['kernel', 'kernel_dtb', 'ramdisk.cpio', 'stub.xz', 'stock_boot.img']:
             if os.path.exists(os.path.join(local, w)):
                 self.remove(os.path.join(local, w))
