@@ -1,6 +1,4 @@
-import sys
-import os
-from Magisk import Magisk_patch
+from Magisk import Magisk_patch, os, sys
 if __name__ == '__main__':
     if sys.argv.__len__() < 2:
         print("参数不足")
