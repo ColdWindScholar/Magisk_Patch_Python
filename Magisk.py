@@ -107,6 +107,7 @@ class Magisk_patch:
             LOGW("! Please restore back to stock boot image")
             sys.exit(1)
         if not (self.STATUS & 4) == 0:
+            # AFFGGH: For Sony
             self.init = 'init.real'
 
     def patch(self):
