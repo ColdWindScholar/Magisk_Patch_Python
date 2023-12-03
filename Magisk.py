@@ -4,7 +4,7 @@ import platform
 import shutil
 import subprocess
 import sys
-
+import zipfile
 from log import LOGE, LOGW, yecho, LOGS
 
 local = os.getcwd()
@@ -17,7 +17,7 @@ class Magisk_patch:
         self.SKIP64 = ''
         self.SHA1 = None
         self.STATUS = None
-        self.MAGISKAPK = MAGISAPK
+        self.MAGISKAPK = os.path.abspath(MAGISAPK)
         self.CHROMEOS = None
         self.IS64BIT = IS64BIT
         self.KEEPVERITY = KEEPVERITY
@@ -164,7 +164,11 @@ class Magisk_patch:
         LOGS(f"Done! Out:{os.path.join(local, 'new-boot.img')}")
 
     def extract_magisk(self):
-        pass
+        if not os.path.exists(self.MAGISKAPK):
+            LOGE(f"We cannot Found {self.MAGISKAPK}, Please Check path!!!")
+            LOGE(f"Use default binary to patch!")
+        else:
+            pass
 
     @staticmethod
     def error(code=1):
