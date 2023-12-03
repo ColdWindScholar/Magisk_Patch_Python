@@ -89,7 +89,7 @@ class Magisk_patch:
 
     def check(self):
         yecho('- Checking ramdisk status')
-        self.STATUS = self.exec('cpio', 'ramdisk.cpio', 'test') if os.path.exists(os.path.join(local, 'ramdisk.cpio')) else self.STATUS = 0
+        self.STATUS = self.exec('cpio', 'ramdisk.cpio', 'test') if os.path.exists(os.path.join(local, 'ramdisk.cpio')) else 0
         if (self.STATUS & 3) == 0:
             yecho("- Stock boot image detected")
             self.SHA1 = self.sha1(self.boot_img)
@@ -147,8 +147,6 @@ class Magisk_patch:
                 shutil.rmtree(file_)
             elif os.path.isfile(os.path.join(local, file_)):
                 os.remove(os.path.join(local, file_))
-        else:
-            pass
 
     def patch_kernel(self):
         if os.path.exists(os.path.join(local, 'kernel')):
