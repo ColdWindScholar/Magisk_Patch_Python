@@ -224,7 +224,8 @@ class Magisk_patch:
                     shutil.rmtree(os.path.join(custom, 'assets'))
                     for i in os.listdir(custom):
                         if os.path.isfile(os.path.join(custom, i)):
-                            shutil.move(os.path.join(custom, i), os.path.join(custom, lib_library[os.path.basename(i)] if os.path.basename(i) in lib_library.keys() else i+'__'))
+                            if os.path.basename(i) in lib_library.keys():
+                                shutil.move(os.path.join(custom, i), os.path.join(custom, lib_library[os.path.basename(i)]))
                 self.Magisk_dir = custom
 
     @staticmethod
