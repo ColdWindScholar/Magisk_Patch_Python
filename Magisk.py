@@ -206,7 +206,7 @@ class Magisk_patch:
                     if var in num_arch.keys():
                         patch_archs = [i for i in arch if num_arch[var][:3] in i]
                     else:
-                        LOGE("Please A Correct Choice!")
+                        LOGE(f"{var} Cannot Found. Please Chooce A Correct Choice!")
                         sys.exit(1)
                     for patch_arch in patch_archs:
                         for i in [i for i in namelist if
