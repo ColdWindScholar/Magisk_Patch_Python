@@ -14,6 +14,7 @@ class Magisk_patch:
 
     def __init__(self, boot_img, Magisk_dir, IS64BIT=True, KEEPVERITY=False, KEEPFORCEENCRYPT=False,
                  RECOVERYMODE=False, MAGISAPK=None):
+        self.SKIPSTUB = ''
         self.SKIP64 = ''
         self.SHA1 = None
         self.STATUS = None
@@ -117,14 +118,17 @@ class Magisk_patch:
         self.exec('compress=xz', f'{os.path.join(self.Magisk_dir, "magisk32")}', 'magisk32.xz')
         self.exec('compress=xz', f'{os.path.join(self.Magisk_dir, "magisk64")}', 'magisk64.xz')
         self.SKIP64 = '' if self.IS64BIT else '#'
-        self.exec('compress=xz', f'{os.path.join(self.Magisk_dir, "stub.apk")}', 'stub.xz')
+        if os.path.exists(os.path.join(self.Magisk_dir, "stub.apk")):
+            self.exec('compress=xz', f'{os.path.join(self.Magisk_dir, "stub.apk")}', 'stub.xz')
+        else:
+            self.SKIPSTUB = '#'
         self.exec('cpio', 'ramdisk.cpio',
                   f"add 0750 init {os.path.join(self.Magisk_dir, 'magiskinit')}",
                   "mkdir 0750 overlay.d",
                   "mkdir 0750 overlay.d/sbin",
                   "add 0644 overlay.d/sbin/magisk32.xz magisk32.xz",
                   f"{self.SKIP64} add 0644 overlay.d/sbin/magisk64.xz magisk64.xz",
-                  "add 0644 overlay.d/sbin/stub.xz stub.xz",
+                  f"{self.SKIPSTUB} add 0644 overlay.d/sbin/stub.xz stub.xz",
                   'patch',
                   "backup ramdisk.cpio.orig",
                   "mkdir 000 .backup",
