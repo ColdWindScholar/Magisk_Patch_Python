@@ -205,6 +205,8 @@ class Magisk_patch:
                         sys.exit(1)
                     for patch_arch in patch_archs:
                         for i in [i for i in namelist if patch_arch in i and os.path.basename(i).startswith('libmagisk')]:
+                            if os.path.basename(i) in ['libmagiskboot.so', 'libmagiskpolicy.so']:
+                                continue
                             ma.extract(i, custom)
                     if 'assets/stub.apk' in namelist:
                         ma.extract('assets/stub.apk', path=custom)
