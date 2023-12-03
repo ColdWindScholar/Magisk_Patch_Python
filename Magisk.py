@@ -94,7 +94,10 @@ class Magisk_patch:
             yecho("- Stock boot image detected")
             self.SHA1 = self.sha1(self.boot_img)
             shutil.copyfile(self.boot_img, os.path.join(local, 'stock_boot.img'))
-            shutil.copyfile(os.path.join(local, 'ramdisk.cpio'), os.path.join(local, 'ramdisk.cpio.orig')) if os.path.exists(os.path.join(local, 'ramdisk.cpio')) else self.SKIPBACKUP = '#'
+            if os.path.exists(os.path.join(local, 'ramdisk.cpio')):
+                shutil.copyfile(os.path.join(local, 'ramdisk.cpio'), os.path.join(local, 'ramdisk.cpio.orig'))
+            else:
+                self.SKIPBACKUP = '#'
         elif (self.STATUS & 3) == 1:
             yecho("- Magisk patched boot image detected")
             if not self.SHA1:
