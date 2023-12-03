@@ -210,8 +210,15 @@ class Magisk_patch:
                             if os.path.basename(i) in ['libmagiskboot.so', 'libmagiskpolicy.so']:
                                 continue
                             ma.extract(i, custom)
+                            dst = os.path.join(custom, os.path.basename(i))
+                            if os.path.exists(dst):
+                                if os.path.getsize(os.path.join(custom, i)) > os.path.getsize(dst):
+                                    shutil.copyfile(os.path.join(custom, i), dst)
+                            else:
+                                shutil.copyfile(os.path.join(custom, i), dst)
                     if 'assets/stub.apk' in namelist:
                         ma.extract('assets/stub.apk', path=custom)
+                        shutil.copyfile(os.path.join(custom, i), (os.path.join(custom, os.path.basename(i))))
                 self.Magisk_dir = custom
 
     @staticmethod
