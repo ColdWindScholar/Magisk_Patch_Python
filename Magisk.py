@@ -18,6 +18,7 @@ class Magisk_patch:
         self.SKIP64 = ''
         self.SKIP32 = ''
         self.SHA1 = None
+        self.init = 'init'
         self.STATUS = None
         self.MAGISKAPK = MAGISAPK
         self.CHROMEOS = None
@@ -111,6 +112,8 @@ class Magisk_patch:
             LOGW("! Boot image patched by unsupported programs")
             LOGW("! Please restore back to stock boot image")
             sys.exit(1)
+        if not (self.STATUS & 4) == 0:
+            self.init = 'init.real'
 
     def patch(self):
         yecho("- Patching ramdisk")
