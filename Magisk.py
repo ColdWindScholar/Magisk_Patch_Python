@@ -37,6 +37,8 @@ class Magisk_patch:
                 self.magiskboot + (".exe" if os.name == 'nt' else '')):
             LOGE("Cannot Found Boot.img or Not Support Your Device")
             sys.exit(1)
+        if self.MAGISKAPK:
+            self.extract_magisk()
         self.unpack()
         self.check()
         self.patch()
@@ -160,6 +162,9 @@ class Magisk_patch:
             if os.path.exists(os.path.join(local, w)):
                 self.remove(os.path.join(local, w))
         LOGS(f"Done! Out:{os.path.join(local, 'new-boot.img')}")
+
+    def extract_magisk(self):
+        pass
 
     @staticmethod
     def error(code=1):
