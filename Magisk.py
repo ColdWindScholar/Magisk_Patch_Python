@@ -190,6 +190,9 @@ class Magisk_patch:
             else:
                 with zipfile.ZipFile(self.MAGISKAPK) as ma:
                     namelist = ma.namelist()
+                    if 'assets/stub.apk' in namelist:
+                        ma.extract('assets/stub.apk', custom)
+
 
     @staticmethod
     def error(code=1):
