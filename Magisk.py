@@ -19,7 +19,7 @@ class Magisk_patch:
         self.SKIP32 = ''
         self.SHA1 = None
         self.STATUS = None
-        self.MAGISKAPK = os.path.abspath(MAGISAPK)
+        self.MAGISKAPK = MAGISAPK
         self.CHROMEOS = None
         self.custom = False
         self.IS64BIT = IS64BIT
@@ -29,7 +29,7 @@ class Magisk_patch:
         self.RECOVERYMODE = RECOVERYMODE
         self.Magisk_dir = Magisk_dir
         self.magiskboot = os.path.join(local, 'bin', platform.system(), platform.machine(), 'magiskboot')
-        self.boot_img = os.path.abspath(boot_img)
+        self.boot_img = boot_img
 
     def auto_patch(self):
         yecho("Magisk Boot Patcher By ColdWindScholar(3590361911@qq.com)")
