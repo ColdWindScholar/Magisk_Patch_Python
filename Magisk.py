@@ -199,12 +199,13 @@ class Magisk_patch:
                         print(f'[{n}]--{num_arch[n]}')
                     var = input('Please Select:')
                     if var in num_arch.keys():
-                        patch_arch = num_arch[var]
+                        patch_archs = [i for i in arch if num_arch[var][:3] in i]
                     else:
                         LOGE("Please A Correct Choice!")
                         sys.exit(1)
-                    for i in [i for i in namelist if patch_arch in i and os.path.basename(i).startswith('libmagisk')]:
-                        ma.extract(i, custom)
+                    for patch_arch in patch_archs:
+                        for i in [i for i in namelist if patch_arch in i and os.path.basename(i).startswith('libmagisk')]:
+                            ma.extract(i, custom)
                     if 'assets/stub.apk' in namelist:
                         ma.extract('assets/stub.apk', path=custom)
                 self.Magisk_dir = custom
