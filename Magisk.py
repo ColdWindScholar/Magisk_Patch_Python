@@ -55,6 +55,8 @@ class Magisk_patch:
                 if out == 0:
                     print(i.decode("utf-8", "ignore").strip())
         except subprocess.CalledProcessError as e:
+            ret = None
+            ret.wait = self.error
             for i in iter(e.stdout.readline, b""):
                 if out == 0:
                     print(i.decode("utf-8", "ignore").strip())
@@ -157,6 +159,11 @@ class Magisk_patch:
             if os.path.exists(os.path.join(local, w)):
                 self.remove(os.path.join(local, w))
         LOGS(f"Done! Out:{os.path.join(local, 'new-boot.img')}")
+
+    @staticmethod
+    def error(code=1):
+        LOGE(f"Error: {code}")
+        sys.exit(code)
 
     @staticmethod
     def sha1(file_path):
