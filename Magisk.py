@@ -16,6 +16,7 @@ class Magisk_patch:
                  RECOVERYMODE=False, MAGISAPK=None):
         self.SKIPSTUB = ''
         self.SKIP64 = ''
+        self.SKIP32 = ''
         self.SHA1 = None
         self.STATUS = None
         self.MAGISKAPK = os.path.abspath(MAGISAPK)
@@ -115,9 +116,15 @@ class Magisk_patch:
             config.write(f'RECOVERYMODE={self.RECOVERYMODE}\n')
             if self.SHA1:
                 config.write(f'SHA1={self.SHA1}')
-        self.exec('compress=xz', os.path.join(self.Magisk_dir, "magisk32"), 'magisk32.xz')
-        self.exec('compress=xz', os.path.join(self.Magisk_dir, "magisk64"), 'magisk64.xz')
         self.SKIP64 = '' if self.IS64BIT else '#'
+        if os.path.exists(os.path.join(self.Magisk_dir, "magisk32")):
+            self.exec('compress=xz', os.path.join(self.Magisk_dir, "magisk32"), 'magisk32.xz')
+        else:
+            self.SKIP32 = '#'
+        if os.path.exists(os.path.join(self.Magisk_dir, "magisk64")):
+            self.exec('compress=xz', os.path.join(self.Magisk_dir, "magisk64"), 'magisk64.xz')
+        else:
+            self.SKIP64 = '#'
         if os.path.exists(os.path.join(self.Magisk_dir, "stub.apk")):
             self.exec('compress=xz', os.path.join(self.Magisk_dir, "stub.apk"), 'stub.xz')
         else:
