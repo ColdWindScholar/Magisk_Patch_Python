@@ -201,13 +201,18 @@ class Magisk_patch:
                         for n in num_arch:
                             print(f'[{n}]--{num_arch[n]}')
                         var = input('Please Select:')
+                        if var in num_arch.keys():
+                            patch_archs = [i for i in arch if num_arch[var][:3] in i]
+                        else:
+                            LOGE(f"{var} Cannot Found. Please Choose A Correct Choice!")
+                            sys.exit(1)
                     else:
                         var = self.PATCH_ARCH
-                    if var in num_arch.keys():
-                        patch_archs = [i for i in arch if num_arch[var][:3] in i]
-                    else:
-                        LOGE(f"{var} Cannot Found. Please Choose A Correct Choice!")
-                        sys.exit(1)
+                        if var in arch:
+                            patch_archs = [i for i in arch if var[:3] in i]
+                        else:
+                            LOGE(f"{var} Cannot Found. Please Choose A Correct Choice!")
+                            sys.exit(1)
                     for patch_arch in patch_archs:
                         for i in [i for i in namelist if
                                   patch_arch in i and os.path.basename(i).startswith('libmagisk')]:
