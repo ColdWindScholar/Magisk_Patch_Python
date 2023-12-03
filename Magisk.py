@@ -177,6 +177,7 @@ class Magisk_patch:
 
     def extract_magisk(self):
         custom = os.path.join(local, 'custom')
+        lib_library = {'libmagisk64.so': 'magisk64', 'libmagisk32.so': 'magisk32', 'libmagiskinit.so': 'magiskinit'}
         if not os.path.exists(custom):
             os.makedirs(custom)
         if not os.path.exists(self.MAGISKAPK):
@@ -202,6 +203,8 @@ class Magisk_patch:
                     else:
                         LOGE("Please A Correct Choice!")
                         sys.exit(1)
+                    for i in [i for i in namelist if patch_arch in i and i.startswith('libmagisk')]:
+                        ma.extract(i, os.path.join(custom, lib_library[os.path.basename(i)] if os.path.basename(i) in lib_library.keys() else os.path.basename(i)))
                     if 'assets/stub.apk' in namelist:
                         ma.extract('assets/stub.apk', custom)
 
