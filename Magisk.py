@@ -222,6 +222,9 @@ class Magisk_patch:
                         shutil.copyfile(os.path.join(custom, 'assets/stub.apk'), (os.path.join(custom, 'stub.apk')))
                     shutil.rmtree(os.path.join(custom, 'lib'))
                     shutil.rmtree(os.path.join(custom, 'assets'))
+                    for i in os.listdir(custom):
+                        if os.path.isfile(os.path.join(custom, i)):
+                            shutil.move(os.path.join(custom, i), os.path.join(custom, lib_library[os.path.basename(i)] if os.path.basename(i) in lib_library.keys() else i+'__'))
                 self.Magisk_dir = custom
 
     @staticmethod
