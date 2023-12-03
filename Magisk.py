@@ -218,7 +218,9 @@ class Magisk_patch:
                                 shutil.copyfile(os.path.join(custom, i), dst)
                     if 'assets/stub.apk' in namelist:
                         ma.extract('assets/stub.apk', path=custom)
-                        shutil.copyfile(os.path.join(custom, i), (os.path.join(custom, os.path.basename(i))))
+                        shutil.copyfile(os.path.join(custom, 'assets/stub.apk'), (os.path.join(custom, 'stub.apk')))
+                    shutil.rmtree(os.path.join(custom, 'lib'))
+                    shutil.rmtree(os.path.join(custom, 'assets'))
                 self.Magisk_dir = custom
 
     @staticmethod
