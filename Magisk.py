@@ -177,6 +177,8 @@ class Magisk_patch:
 
     def extract_magisk(self):
         custom = os.path.join(local, 'custom')
+        if os.path.exists(custom):
+            shutil.rmtree(custom)
         lib_library = {'libmagisk64.so': 'magisk64', 'libmagisk32.so': 'magisk32', 'libmagiskinit.so': 'magiskinit'}
         if not os.path.exists(custom):
             os.makedirs(custom)
