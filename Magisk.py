@@ -115,11 +115,11 @@ class Magisk_patch:
             config.write(f'RECOVERYMODE={self.RECOVERYMODE}\n')
             if self.SHA1:
                 config.write(f'SHA1={self.SHA1}')
-        self.exec('compress=xz', f'{os.path.join(self.Magisk_dir, "magisk32")}', 'magisk32.xz')
-        self.exec('compress=xz', f'{os.path.join(self.Magisk_dir, "magisk64")}', 'magisk64.xz')
+        self.exec('compress=xz', os.path.join(self.Magisk_dir, "magisk32"), 'magisk32.xz')
+        self.exec('compress=xz', os.path.join(self.Magisk_dir, "magisk64"), 'magisk64.xz')
         self.SKIP64 = '' if self.IS64BIT else '#'
         if os.path.exists(os.path.join(self.Magisk_dir, "stub.apk")):
-            self.exec('compress=xz', f'{os.path.join(self.Magisk_dir, "stub.apk")}', 'stub.xz')
+            self.exec('compress=xz', os.path.join(self.Magisk_dir, "stub.apk"), 'stub.xz')
         else:
             self.SKIPSTUB = '#'
         self.exec('cpio', 'ramdisk.cpio',
