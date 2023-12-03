@@ -21,6 +21,7 @@ class Magisk_patch:
         self.STATUS = None
         self.MAGISKAPK = os.path.abspath(MAGISAPK)
         self.CHROMEOS = None
+        self.custom = False
         self.IS64BIT = IS64BIT
         self.KEEPVERITY = KEEPVERITY
         self.KEEPFORCEENCRYPT = KEEPFORCEENCRYPT
@@ -171,9 +172,6 @@ class Magisk_patch:
         yecho("- Repacking boot image")
         if self.exec('repack', self.boot_img) != 0:
             LOGW("! Unable to repack boot image")
-        for w in ['kernel', 'kernel_dtb', 'ramdisk.cpio', 'stub.xz', 'stock_boot.img', 'dtb']:
-            if os.path.exists(os.path.join(local, w)):
-                self.remove(os.path.join(local, w))
         LOGS(f"Done! Out:{os.path.join(local, 'new-boot.img')}")
 
     def extract_magisk(self):
@@ -207,7 +205,8 @@ class Magisk_patch:
                         LOGE("Please A Correct Choice!")
                         sys.exit(1)
                     for patch_arch in patch_archs:
-                        for i in [i for i in namelist if patch_arch in i and os.path.basename(i).startswith('libmagisk')]:
+                        for i in [i for i in namelist if
+                                  patch_arch in i and os.path.basename(i).startswith('libmagisk')]:
                             if os.path.basename(i) in ['libmagiskboot.so', 'libmagiskpolicy.so']:
                                 continue
                             ma.extract(i, custom)
@@ -225,8 +224,17 @@ class Magisk_patch:
                     for i in os.listdir(custom):
                         if os.path.isfile(os.path.join(custom, i)):
                             if os.path.basename(i) in lib_library.keys():
-                                shutil.move(os.path.join(custom, i), os.path.join(custom, lib_library[os.path.basename(i)]))
+                                shutil.move(os.path.join(custom, i),
+                                            os.path.join(custom, lib_library[os.path.basename(i)]))
                 self.Magisk_dir = custom
+                self.custom = True
+
+    def cleanup(self):
+        if self.custom:
+            shutil.rmtree(self.Magisk_dir)
+        for w in ['kernel', 'kernel_dtb', 'ramdisk.cpio', 'stub.xz', 'stock_boot.img', 'dtb']:
+            if os.path.exists(os.path.join(local, w)):
+                self.remove(os.path.join(local, w))
 
     @staticmethod
     def error(code=1):
