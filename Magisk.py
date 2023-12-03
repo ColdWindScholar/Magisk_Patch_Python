@@ -193,6 +193,15 @@ class Magisk_patch:
                     arch = [i.split('/')[1].strip() for i in namelist if
                             i.startswith('lib') and i.endswith('libmagiskboot.so')]
                     num_arch = {str(num): i for num, i in enumerate(arch)}
+                    print("Which Arch You Want To Patch?")
+                    for num, i in num_arch:
+                        print(f'[{num}]--{i}')
+                    var = input('Please Select:')
+                    if var in num_arch.keys():
+                        patch_arch = num_arch[var]
+                    else:
+                        LOGE("Please A Correct Choice!")
+                        sys.exit(1)
                     if 'assets/stub.apk' in namelist:
                         ma.extract('assets/stub.apk', custom)
 
