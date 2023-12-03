@@ -60,6 +60,7 @@ class Magisk_patch:
         except subprocess.CalledProcessError as e:
             ret = None
             ret.wait = self.error
+            ret.returncode = 1
             for i in iter(e.stdout.readline, b""):
                 if out == 0:
                     print(i.decode("utf-8", "ignore").strip())
