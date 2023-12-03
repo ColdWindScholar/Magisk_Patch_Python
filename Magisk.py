@@ -13,10 +13,11 @@ local = os.getcwd()
 class Magisk_patch:
 
     def __init__(self, boot_img, Magisk_dir, IS64BIT=True, KEEPVERITY=False, KEEPFORCEENCRYPT=False,
-                 RECOVERYMODE=False):
+                 RECOVERYMODE=False, MAGISAPK=None):
         self.SKIP64 = ''
         self.SHA1 = None
         self.STATUS = None
+        self.MAGISKAPK = MAGISAPK
         self.CHROMEOS = None
         self.IS64BIT = IS64BIT
         self.KEEPVERITY = KEEPVERITY
