@@ -207,6 +207,7 @@ class Magisk_patch:
                         ma.extract(i, os.path.join(custom, lib_library[os.path.basename(i)] if os.path.basename(i) in lib_library.keys() else os.path.basename(i)))
                     if 'assets/stub.apk' in namelist:
                         ma.extract('assets/stub.apk', custom)
+                self.Magisk_dir = custom
 
     @staticmethod
     def error(code=1):
