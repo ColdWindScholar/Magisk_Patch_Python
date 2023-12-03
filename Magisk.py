@@ -172,7 +172,6 @@ class Magisk_patch:
         yecho("- Repacking boot image")
         if self.exec('repack', self.boot_img) != 0:
             LOGW("! Unable to repack boot image")
-        LOGS(f"Done! Out:{os.path.join(local, 'new-boot.img')}")
 
     def extract_magisk(self):
         custom = os.path.join(local, 'custom')
@@ -235,6 +234,7 @@ class Magisk_patch:
         for w in ['kernel', 'kernel_dtb', 'ramdisk.cpio', 'stub.xz', 'stock_boot.img', 'dtb']:
             if os.path.exists(os.path.join(local, w)):
                 self.remove(os.path.join(local, w))
+        LOGS(f"Done! Out:{os.path.join(local, 'new-boot.img')}")
 
     @staticmethod
     def error(code=1):
