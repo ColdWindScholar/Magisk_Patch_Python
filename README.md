@@ -2,8 +2,8 @@
 ### Patch Magisk Every Where
 ****
 # Support
-## Magisk23-Magisk26.4 ! So cool!##
-## Linux Windows Macos #
+## Magisk23-Magisk26.4 and Newer ! So cool! ##
+## Linux Windows Macos ##
 ****
 # Usage
 ``` shell
