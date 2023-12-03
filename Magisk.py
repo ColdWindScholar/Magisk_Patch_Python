@@ -33,6 +33,12 @@ class Magisk_patch:
         self.magiskboot = os.path.join(local, 'bin', platform.system(), platform.machine(), 'magiskboot')
         self.boot_img = boot_img
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+
     def auto_patch(self):
         yecho("Magisk Boot Patcher By ColdWindScholar(3590361911@qq.com)")
         if self.boot_img == os.path.join(local, 'new-boot.img'):
@@ -89,7 +95,8 @@ class Magisk_patch:
 
     def check(self):
         yecho('- Checking ramdisk status')
-        self.STATUS = self.exec('cpio', 'ramdisk.cpio', 'test') if os.path.exists(os.path.join(local, 'ramdisk.cpio')) else 0
+        self.STATUS = self.exec('cpio', 'ramdisk.cpio', 'test') if os.path.exists(
+            os.path.join(local, 'ramdisk.cpio')) else 0
         if (self.STATUS & 3) == 0:
             yecho("- Stock boot image detected")
             self.SHA1 = self.sha1(self.boot_img)
