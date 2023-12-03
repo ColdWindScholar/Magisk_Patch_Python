@@ -195,8 +195,8 @@ class Magisk_patch:
                             i.startswith('lib') and i.endswith('libmagiskboot.so')]
                     num_arch = {str(num): i for num, i in enumerate(arch)}
                     print("Which Arch You Want To Patch?")
-                    for num, i in num_arch:
-                        print(f'[{num}]--{i}')
+                    for n in num_arch:
+                        print(f'[{n}]--{num_arch[n]}')
                     var = input('Please Select:')
                     if var in num_arch.keys():
                         patch_arch = num_arch[var]
