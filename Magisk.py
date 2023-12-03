@@ -172,8 +172,13 @@ class Magisk_patch:
         if not os.path.exists(self.MAGISKAPK):
             LOGE(f"We cannot Found {self.MAGISKAPK}, Please Check path!!!")
             LOGE(f"Use default binary to patch!")
+            return
         else:
-            pass
+            if not zipfile.is_zipfile(self.MAGISKAPK):
+                LOGE(f"{self.MAGISKAPK} Not apk!!!")
+                return
+            else:
+                pass
 
     @staticmethod
     def error(code=1):
