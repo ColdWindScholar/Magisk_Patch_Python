@@ -54,10 +54,7 @@ class Magisk_patch:
 
     def exec(self, *args, out=0):
         full = [self.magiskboot, *args]
-        if os.name != 'posix':
-            conf = subprocess.CREATE_NO_WINDOW
-        else:
-            conf = 0
+        conf = subprocess.CREATE_NO_WINDOW if os.name != 'posix' else 0
         try:
             ret = subprocess.Popen(full, shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                    stderr=subprocess.STDOUT, creationflags=conf)
