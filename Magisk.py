@@ -13,7 +13,7 @@ local = os.getcwd()
 class Magisk_patch:
 
     def __init__(self, boot_img, Magisk_dir, IS64BIT=True, KEEPVERITY=False, KEEPFORCEENCRYPT=False,
-                 RECOVERYMODE=False, MAGISAPK=None):
+                 RECOVERYMODE=False, MAGISAPK=None, PATCH_ARCH=None):
         self.SKIPSTUB = ''
         self.SKIP64 = ''
         self.SKIP32 = ''
@@ -23,6 +23,7 @@ class Magisk_patch:
         self.CHROMEOS = None
         self.custom = False
         self.IS64BIT = IS64BIT
+        self.PATCH_ARCH = PATCH_ARCH
         self.KEEPVERITY = KEEPVERITY
         self.KEEPFORCEENCRYPT = KEEPFORCEENCRYPT
         self.RECOVERYMODE = RECOVERYMODE
@@ -195,10 +196,13 @@ class Magisk_patch:
                     arch = [i.split('/')[1].strip() for i in namelist if
                             i.startswith('lib') and i.endswith('libmagiskboot.so')]
                     num_arch = {str(num): i for num, i in enumerate(arch)}
-                    print("Which Arch You Want To Patch?")
-                    for n in num_arch:
-                        print(f'[{n}]--{num_arch[n]}')
-                    var = input('Please Select:')
+                    if not self.PATCH_ARCH:
+                        print("Which Arch You Want To Patch?")
+                        for n in num_arch:
+                            print(f'[{n}]--{num_arch[n]}')
+                        var = input('Please Select:')
+                    else:
+                        var = self.PATCH_ARCH
                     if var in num_arch.keys():
                         patch_archs = [i for i in arch if num_arch[var][:3] in i]
                     else:
