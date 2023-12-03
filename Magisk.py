@@ -14,6 +14,7 @@ class Magisk_patch:
 
     def __init__(self, boot_img, Magisk_dir, IS64BIT=True, KEEPVERITY=False, KEEPFORCEENCRYPT=False,
                  RECOVERYMODE=False, MAGISAPK=None, PATCH_ARCH=None):
+        self.SKIPBACKUP = ''
         self.SKIPSTUB = ''
         self.SKIP64 = ''
         self.SKIP32 = ''
@@ -101,6 +102,8 @@ class Magisk_patch:
             shutil.copyfile(self.boot_img, os.path.join(local, 'stock_boot.img'))
             if os.path.exists(os.path.join(local, 'ramdisk.cpio')):
                 shutil.copyfile(os.path.join(local, 'ramdisk.cpio'), os.path.join(local, 'ramdisk.cpio.orig'))
+            else:
+                self.SKIPBACKUP = '#'
         elif (self.STATUS & 3) == 1:
             yecho("- Magisk patched boot image detected")
             if not self.SHA1:
@@ -144,7 +147,7 @@ class Magisk_patch:
                   f"{self.SKIP64} add 0644 overlay.d/sbin/magisk64.xz magisk64.xz",
                   f"{self.SKIPSTUB} add 0644 overlay.d/sbin/stub.xz stub.xz",
                   'patch',
-                  "backup ramdisk.cpio.orig",
+                  f"{self.SKIPBACKUP} backup ramdisk.cpio.orig",
                   "mkdir 000 .backup",
                   "add 000 .backup/.magisk config"
                   )
