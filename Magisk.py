@@ -140,7 +140,7 @@ class Magisk_patch:
                   f"add 0750 {self.init} {os.path.join(self.Magisk_dir, 'magiskinit')}",
                   "mkdir 0750 overlay.d",
                   "mkdir 0750 overlay.d/sbin",
-                  "add 0644 overlay.d/sbin/magisk32.xz magisk32.xz",
+                  f"{self.SKIP32} add 0644 overlay.d/sbin/magisk32.xz magisk32.xz",
                   f"{self.SKIP64} add 0644 overlay.d/sbin/magisk64.xz magisk64.xz",
                   f"{self.SKIPSTUB} add 0644 overlay.d/sbin/stub.xz stub.xz",
                   'patch',
