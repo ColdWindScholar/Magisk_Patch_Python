@@ -47,6 +47,7 @@ class Magisk_patch:
         self.patch()
         self.patch_kernel()
         self.repack()
+        self.cleanup()
 
     def exec(self, *args, out=0):
         full = [self.magiskboot, *args]
