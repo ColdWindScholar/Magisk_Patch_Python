@@ -221,5 +221,8 @@ class Magisk_patch:
 
     @staticmethod
     def sha1(file_path):
-        with open(file_path, 'rb') as f:
-            return hashlib.sha1(f.read()).hexdigest()
+        if os.path.exists(file_path):
+            with open(file_path, 'rb') as f:
+                return hashlib.sha1(f.read()).hexdigest()
+        else:
+            return ''
