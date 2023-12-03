@@ -176,6 +176,9 @@ class Magisk_patch:
         LOGS(f"Done! Out:{os.path.join(local, 'new-boot.img')}")
 
     def extract_magisk(self):
+        custom = os.path.join(local,'custom')
+        if not os.path.exists(custom):
+            os.makedirs(custom)
         if not os.path.exists(self.MAGISKAPK):
             LOGE(f"We cannot Found {self.MAGISKAPK}, Please Check path!!!")
             LOGE(f"Use default binary to patch!")
@@ -185,7 +188,8 @@ class Magisk_patch:
                 LOGE(f"{self.MAGISKAPK} Not apk!!!")
                 return
             else:
-                pass
+                with zipfile.ZipFile(self.MAGISKAPK) as ma:
+                    namelist = ma.namelist()
 
     @staticmethod
     def error(code=1):
