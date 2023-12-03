@@ -176,7 +176,7 @@ class Magisk_patch:
         LOGS(f"Done! Out:{os.path.join(local, 'new-boot.img')}")
 
     def extract_magisk(self):
-        custom = os.path.join(local,'custom')
+        custom = os.path.join(local, 'custom')
         if not os.path.exists(custom):
             os.makedirs(custom)
         if not os.path.exists(self.MAGISKAPK):
@@ -190,9 +190,11 @@ class Magisk_patch:
             else:
                 with zipfile.ZipFile(self.MAGISKAPK) as ma:
                     namelist = ma.namelist()
+                    arch = [i.split('/')[1].strip() for i in namelist if
+                            i.startswith('lib') and i.endswith('libmagiskboot.so')]
+                    num_arch = {str(num): i for num, i in enumerate(arch)}
                     if 'assets/stub.apk' in namelist:
                         ma.extract('assets/stub.apk', custom)
-
 
     @staticmethod
     def error(code=1):
