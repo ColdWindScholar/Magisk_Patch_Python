@@ -252,6 +252,11 @@ class Magisk_patch:
                 self.remove(os.path.join(local, w))
         LOGS(f"Done! Out:{os.path.join(local, 'new-boot.img')}")
 
+    def get_arch(self):
+        with zipfile.ZipFile(self.MAGISKAPK) as ma:
+            return [i.split('/')[1].strip() for i in ma.namelist() if
+                    i.startswith('lib') and i.endswith('libmagiskboot.so')]
+
     @staticmethod
     def error(code=1):
         LOGE(f"Error: {code}")
