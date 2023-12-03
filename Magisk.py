@@ -137,7 +137,7 @@ class Magisk_patch:
         else:
             self.SKIPSTUB = '#'
         self.exec('cpio', 'ramdisk.cpio',
-                  f"add 0750 init {os.path.join(self.Magisk_dir, 'magiskinit')}",
+                  f"add 0750 {self.init} {os.path.join(self.Magisk_dir, 'magiskinit')}",
                   "mkdir 0750 overlay.d",
                   "mkdir 0750 overlay.d/sbin",
                   "add 0644 overlay.d/sbin/magisk32.xz magisk32.xz",
