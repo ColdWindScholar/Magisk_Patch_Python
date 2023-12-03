@@ -203,10 +203,10 @@ class Magisk_patch:
                     else:
                         LOGE("Please A Correct Choice!")
                         sys.exit(1)
-                    for i in [i for i in namelist if patch_arch in i and i.startswith('libmagisk')]:
-                        ma.extract(i, os.path.join(custom, lib_library[os.path.basename(i)] if os.path.basename(i) in lib_library.keys() else os.path.basename(i)))
+                    for i in [i for i in namelist if patch_arch in i and os.path.basename(i).startswith('libmagisk')]:
+                        ma.extract(i, custom)
                     if 'assets/stub.apk' in namelist:
-                        ma.extract('assets/stub.apk', custom)
+                        ma.extract('assets/stub.apk', path=custom)
                 self.Magisk_dir = custom
 
     @staticmethod
