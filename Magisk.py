@@ -32,7 +32,8 @@ class Magisk_patch:
             LOGW("Warn:Cannot be named after the generated file name")
             LOGW(f'Please Rename {self.boot_img}')
             sys.exit(1)
-        if not os.path.exists(self.boot_img) or not os.path.exists(self.magiskboot+(".exe" if os.name == 'nt' else '')):
+        if not os.path.exists(self.boot_img) or not os.path.exists(
+                self.magiskboot + (".exe" if os.name == 'nt' else '')):
             LOGE("Cannot Found Boot.img or Not Support Your Device")
             sys.exit(1)
         self.unpack()
@@ -152,10 +153,10 @@ class Magisk_patch:
         yecho("- Repacking boot image")
         if self.exec('repack', self.boot_img) != 0:
             LOGW("! Unable to repack boot image")
-        for w in ['kernel', 'kernel_dtb', 'ramdisk.cpio', 'stub.xz', 'stock_boot.img']:
+        for w in ['kernel', 'kernel_dtb', 'ramdisk.cpio', 'stub.xz', 'stock_boot.img', 'dtb']:
             if os.path.exists(os.path.join(local, w)):
                 self.remove(os.path.join(local, w))
-        LOGS(f"Done! Out:{os.path.join(local,'new-boot.img')}")
+        LOGS(f"Done! Out:{os.path.join(local, 'new-boot.img')}")
 
     @staticmethod
     def sha1(file_path):
